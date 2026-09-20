@@ -1,7 +1,8 @@
 # Go Cafe
 
-A native client for playing Go online on [Fox (foxwq)](https://www.foxwq.com/).
-Board, clocks, lobby and history, without a browser.
+A native client for playing Go — Baduk, Weiqi — online, on
+[Fox (foxwq)](https://www.foxwq.com/). Board, clocks, lobby and history, without
+a browser.
 
 <table>
 <tr>
@@ -10,43 +11,27 @@ Board, clocks, lobby and history, without a browser.
 </tr>
 </table>
 
-## Install
+Go Cafe isn't in any app store, and isn't signed yet — which your computer will
+have opinions about. See below.
 
-**[Latest release](../../releases/latest)**
+## Download
+
+**[→ Latest release](../../releases/latest)**
 
 | Platform | File | Guide |
 |---|---|---|
-| **macOS** 10.15 or newer, Apple Silicon and Intel | `GoCafe-<version>.dmg` | [install](INSTALL-macos.md) |
+| **macOS** 10.15+, Apple Silicon and Intel | `GoCafe-<version>.dmg` | [install](INSTALL-macos.md) |
 | **Windows** 10 and 11, 64-bit | `GoCafe-<version>-windows-x64.zip` | [install](INSTALL-windows.md) |
-| **Linux** x86_64, glibc 2.35 or newer | `GoCafe-<version>-x86_64.AppImage` | [install](INSTALL-linux.md) |
-| **Android** 7.0 or newer | `GoCafe-<version>.apk` | [install](INSTALL-android.md) |
+| **Linux** x86_64, glibc 2.35+ | `GoCafe-<version>-x86_64.AppImage` | [install](INSTALL-linux.md) |
+| **Android** 7.0+ | `GoCafe-<version>.apk` | [install](INSTALL-android.md) |
 
-On a Mac, one line in Terminal installs it with no security warning:
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/go-cafe-app/app/main/install.sh | bash
-```
-
-If you would rather not run a script, download the disk image and follow the
-[macOS guide](INSTALL-macos.md).
-
-Linux needs glibc 2.35 or newer: Ubuntu 22.04, Debian 12, Fedora 36 or later.
-One APK covers every Android device.
-
-Go Cafe is not in any app store and is not code-signed, so each system shows a
-warning the first time you open it. Each guide says how to get past it. It is
-one step.
-
-## Updates
-
-Go Cafe checks for a new version when it starts. When there is one, a card in
-the corner shows what changed. On macOS and Linux, one click installs it and
-the app restarts. On Android, the app downloads it and Android asks once before
-installing. On Windows, the card links to the download page.
+Linux needs **glibc 2.35 or newer** — Ubuntu 22.04+, Debian 12+, Fedora 36+.
+Older than that and it won't start. Android is one APK for every device.
 
 ## A look around
 
-**Pick your board and stones.** Boards and stone sets to mix and match.
+**Pick your board and stones.** A selection of boards and stone sets to mix and
+match, in a simple, clean interface.
 
 <table>
 <tr>
@@ -55,24 +40,43 @@ installing. On Windows, the card links to the download page.
 </tr>
 </table>
 
-**See who you're playing as the game starts.** Your opponent's form and record
-are on screen from the first move.
+**See who you're playing, as the game starts.** Your opponent's form and record
+are in front of you from the first move, so you can decide whether to play on
+without extra work to look up their profile.
 
 <p align="center">
   <img src="screenshots/opponent-form.png" width="420"
        alt="A small panel headed YOUR OPPONENT: their form at this rank as a strip of wins and losses, games played today, their record at this rank, their total games, and the year they joined.">
 </p>
 
-**Watch live games, including professional broadcasts,** with the commentary
-and the engine's estimate as the game goes on. Player and tournament names are
-shown in English.
+**Watch live games, professional broadcasts included** — with the commentary and
+the engine's read on the position as it happens. Player and tournament names are
+translated into English.
 
 <p align="center">
   <img src="screenshots/watch-broadcast.png" width="900"
        alt="A professional game being broadcast: the board fills the window, and a side panel carries both players, the engine's win rate, a move navigator and a running commentary.">
 </p>
 
-## Checking a download
+## Your computer will warn you
+
+Nothing is wrong with the app. The warning means nobody has paid to vouch for it,
+which is a different thing — signing certificates cost money, and Go Cafe isn't
+signed yet.
+
+- **macOS** — *"Apple cannot check it for malicious software"*, offering only
+  Move to Trash. Click **Cancel**, then open **System Settings → Privacy &
+  Security**, scroll down and click **Open Anyway**. (On macOS 14 and earlier:
+  right-click the app → **Open** instead.)
+- **Windows** — a blue *"Windows protected your PC"* panel. **More info** →
+  **Run anyway**.
+- **Android** — *"Unsafe app blocked"*. **More details** → **Install anyway**.
+- **Linux** — nothing. `chmod +x` and run it.
+
+Each guide above has the full walkthrough plus the handful of things that go
+wrong. Worth a look before you start.
+
+## Checking the download
 
 Every file has a `.sha256` next to it:
 
@@ -80,19 +84,19 @@ Every file has a `.sha256` next to it:
 sha256sum -c GoCafe-<version>.apk.sha256     # shasum -a 256 -c on macOS
 ```
 
-An incomplete download is the usual reason an install fails. This catches it.
+A half-finished download is the most common reason an install fails, and this
+catches it in a second.
 
-## Problems
+## Something broken?
 
-Open an [issue](../../issues) and say what you did, what happened, and your
-platform and version. Each guide says where the session log is. Attach it if
-you can.
+Open an [issue](../../issues) — what you did, what happened, your platform and
+version. Each guide says where your session log lives; attaching it helps a lot.
+Nothing is too small to report.
 
 ## Credits
 
-Board and stone artwork is other people's work under MIT and CC BY-SA 4.0. Each
-set is credited by name, author and licence on the app's **Settings → Credits**
+Board and stone artwork is other people's work under MIT and CC BY-SA 4.0, each
+set credited by name, author and licence on the app's **Settings → Credits**
 screen.
 
-Go Cafe is an unofficial client. It is not affiliated with or endorsed by Fox
-Weiqi.
+Go Cafe is an unofficial client, not affiliated with or endorsed by Fox Weiqi.
