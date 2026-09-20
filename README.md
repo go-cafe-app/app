@@ -21,7 +21,7 @@ Board, clocks, lobby and history, without a browser.
 | **Linux** x86_64, glibc 2.35 or newer | `GoCafe-<version>-x86_64.AppImage` | [install](INSTALL-linux.md) |
 | **Android** 7.0 or newer | `GoCafe-<version>.apk` | [install](INSTALL-android.md) |
 
-On a Mac, one line in Terminal installs it with no security warning:
+One line in Terminal installation on macOS:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/go-cafe-app/app/main/install.sh | bash
@@ -29,9 +29,6 @@ curl -fsSL https://raw.githubusercontent.com/go-cafe-app/app/main/install.sh | b
 
 If you would rather not run a script, download the disk image and follow the
 [macOS guide](INSTALL-macos.md).
-
-Linux needs glibc 2.35 or newer: Ubuntu 22.04, Debian 12, Fedora 36 or later.
-One APK covers every Android device.
 
 Go Cafe is not in any app store and is not code-signed, so each system shows a
 warning the first time you open it. Each guide says how to get past it. It is
