@@ -3,7 +3,7 @@
 There are two ways. The first takes ten seconds and shows no warning. The
 second is the usual drag to Applications, with one extra step the first time.
 
-## One line in Terminal
+## One line in Terminal installation
 
 Open Terminal (press ⌘-Space, type `Terminal`, press Return). Paste this line
 and press Return:
