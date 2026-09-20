@@ -1,152 +1,131 @@
 # Installing Go Cafe on Windows
 
-Thanks for testing. This takes about a minute.
-
-Go Cafe ships for Windows as a **portable zip** — no installer, nothing written
-to your registry, nothing in Program Files. You unzip it, run it, and delete the
-folder when you're done with it.
+Go Cafe ships for Windows as a portable zip. There is no installer, nothing in
+the registry and nothing in Program Files. Unzip it, run it, and delete the
+folder when you are done.
 
 ## 1. Download and unblock
 
 Download `GoCafe-<version>-windows-x64.zip` from the
 [Releases page](https://github.com/go-cafe-app/app/releases).
 
-Before you extract it, do this — it saves you a warning later:
+Before you extract it:
 
-1. Right-click the downloaded `.zip` → **Properties**.
-2. At the bottom of the General tab, if there's an **Unblock** checkbox, tick it.
-3. **OK**.
+1. Right-click the `.zip` and choose **Properties**.
+2. At the bottom of the General tab, tick **Unblock** if it is there.
+3. Click **OK**.
 
-That checkbox is Windows saying "this came from the internet." Ticking it on the
-zip means the files inside come out clean. If the checkbox isn't there, nothing
-is wrong — some browsers don't set the flag. Carry on.
+That checkbox marks the file as downloaded from the internet. Clearing it on
+the zip clears it on every file inside. If there is no checkbox, carry on.
 
 ## 2. Extract
 
-Right-click the zip → **Extract All…** → **Extract**. You get a folder called
-`GoCafe-<version>-windows-x64`.
+Right-click the zip, choose **Extract All…**, then **Extract**. You get a
+folder called `GoCafe-<version>-windows-x64`.
 
-Move that folder wherever you like — Documents, the Desktop, anywhere. Keep it
-together: `gocafe.exe` needs the `data` folder and the `.dll` files sitting next
-to it.
+Move the folder wherever you like. Keep it together: `gocafe.exe` needs the
+`data` folder and the `.dll` files next to it.
 
 ## 3. Run it
 
-Double-click **gocafe.exe** inside the folder.
+Double-click **gocafe.exe** in the folder.
 
-If you want it somewhere convenient, right-click `gocafe.exe` → **Show more
-options** → **Send to** → **Desktop (create shortcut)**, or drag it onto the
-taskbar to pin it.
+For a shortcut, right-click `gocafe.exe`, choose **Show more options → Send
+to → Desktop (create shortcut)**, or drag it onto the taskbar.
 
-## The warning you will probably see
+## The warning
 
-If you didn't unblock the zip in step 1, Windows shows a blue box:
+If you did not unblock the zip, Windows shows a blue box: **Windows protected
+your PC**. Click **More info**, then **Run anyway**. That is once. Windows
+remembers.
 
-> **Windows protected your PC**
-> Microsoft Defender SmartScreen prevented an unrecognised app from starting.
+Go Cafe is not code-signed, and SmartScreen shows this for any program it has
+not seen many people run. It is not a virus warning. **Run anyway** changes no
+setting and applies to this one program.
 
-There's a **Don't run** button and, at first glance, nothing else. The way past
-it is:
+To check the file yourself first, upload the zip to
+[VirusTotal](https://www.virustotal.com/), or verify the checksum below.
 
-1. Click **More info** (small link, above the button).
-2. A **Run anyway** button appears. Click it.
+## Updates
 
-That's it — you only have to do this once. Windows remembers.
+Go Cafe checks for a new version when it starts. When there is one, a card in
+the corner shows what changed, with a **Download** button that opens the
+release page. Download the new zip, extract it, and replace the folder. Your
+settings are kept, because they live outside the folder.
 
-### Why does that happen?
-
-Go Cafe isn't code-signed yet. A Windows code-signing certificate costs a few
-hundred pounds a year from a certificate authority, and this is an early test
-build, so it doesn't have one.
-
-SmartScreen shows that box for **any** program it hasn't seen many people run
-before, signed or not. It isn't a virus warning and it isn't telling you the app
-is malicious — it's telling you Windows doesn't recognise it yet. Clicking
-**More info → Run anyway** is Microsoft's own built-in way of saying "yes, I
-know where this came from." It doesn't turn off any security setting and it
-applies to this one program only.
-
-If you'd rather check for yourself first, upload the zip to
-[VirusTotal](https://www.virustotal.com/) — or verify the checksum, see below.
+**Skip this version** hides that version for good. **Settings → About →
+Version** shows which version you have and checks again when you tap it.
 
 ## If it doesn't start
 
-### "VCRUNTIME140_1.dll was not found" (or msvcp140.dll)
+### "VCRUNTIME140_1.dll was not found" or "msvcp140.dll"
 
-This shouldn't happen — those files are shipped inside the zip — but if it does,
-you've probably run `gocafe.exe` on its own after copying it out of the folder.
-Put it back with the rest of the files and run it from there.
+Those files are in the zip. You have probably run `gocafe.exe` after copying
+it out of the folder on its own. Put it back with the other files.
 
 ### It flashes a window and disappears
 
-Almost always a missing file: something extracted the `.exe` without the `data`
-folder next to it, or an antivirus quarantined part of it. Delete the folder,
-extract the zip again, and check your antivirus's quarantine list.
+A file is missing: the `.exe` was extracted without the `data` folder next to
+it, or an antivirus quarantined part of it. Delete the folder, extract the zip
+again, and check the antivirus quarantine list.
 
 ### Your antivirus deletes it
 
-Unsigned executables from small projects get false positives from time to time,
-especially with Avast, AVG and Norton. The checksum below tells you the file is
-exactly what was built; adding an exclusion for the folder is the usual fix. If
-you'd rather not, that's completely reasonable — say so and wait for a signed
-build.
+Unsigned programs from small projects get false positives, especially with
+Avast, AVG and Norton. The checksum below tells you the file is exactly what
+was built. Adding an exclusion for the folder is the usual fix. If you would
+rather not, wait for a signed build.
 
 ### It opens but can't reach a server
 
-Check you're online, then check whether a VPN, a corporate firewall or a "family
-safety" filter is in the way. Go Cafe talks to Go servers directly on their own
-ports rather than over ordinary web traffic, and some restrictive networks block
-exactly that. Windows Firewall may also pop up a "Allow Go Cafe to communicate
-on these networks?" prompt the first time — say yes.
+Check that you are online, and whether a VPN, a corporate firewall or a family
+safety filter is in the way. Go Cafe connects to Go servers on their own
+ports, and some networks block that. Windows Firewall may ask whether to allow
+Go Cafe on the network the first time. Say yes.
 
 ## Where Go Cafe keeps things
 
-- Settings, board theme, logs:
-  `%APPDATA%\app.gocafe\gocafe\`
-  (paste that into the File Explorer address bar)
-- **Server passwords: Windows Credential Manager**, the same place Windows keeps
-  the passwords it saves for you. Not in the folder, and not in the zip.
+- Settings, board choice and logs: `%APPDATA%\app.gocafe\gocafe\`. Paste that
+  into the File Explorer address bar.
+- Server passwords: Windows Credential Manager, where Windows keeps the
+  passwords it saves for you.
 
-Because everything lives outside the program folder, you can delete and replace
-the folder with a newer version and keep your settings.
+Nothing lives in the program folder, so you can replace the folder with a
+newer version and keep your settings.
 
 ## Verifying the download
 
-Every release includes a `.sha256` file next to the zip. In PowerShell, from
-your Downloads folder:
+Each release has a `.sha256` file next to the zip. In PowerShell, from your
+Downloads folder:
 
 ```powershell
 Get-FileHash .\GoCafe-<version>-windows-x64.zip -Algorithm SHA256
 ```
 
-Compare what it prints with the contents of the `.sha256` file — they should
-match, ignoring upper/lower case.
+Compare the result with the `.sha256` file. Case does not matter.
 
 ## Uninstalling
 
-Delete the folder. That's the whole thing.
-
-To also clear your settings, delete `%APPDATA%\app.gocafe\gocafe\`. Your saved
-login is in Credential Manager (Control Panel → User Accounts → Credential
-Manager → Windows Credentials), under `app.gocafe.gocafe`.
+Delete the folder. To clear your settings, delete
+`%APPDATA%\app.gocafe\gocafe\`. Your saved login is in Credential Manager,
+under **Windows Credentials**, as `app.gocafe.gocafe`.
 
 ## Requirements
 
-- Windows 10 version 1809 (October 2018) or newer, 64-bit — and Windows 11
+- Windows 10 version 1809 or newer, 64-bit, or Windows 11
 - About 250 MB of disk space
-- Windows on ARM works too: it runs the x64 build under emulation
+- Windows on ARM runs the x64 build under emulation
 
-## Reporting problems
+## Reporting a problem
 
-There's a log that makes bugs far easier to diagnose. Paste this into the File
-Explorer address bar and attach the file to your report:
+Attach the session log. Paste this into the File Explorer address bar:
 
 ```
 %APPDATA%\app.gocafe\gocafe\gocafe-session.log
 ```
 
-It records the app's conversation with the Go server for the current session. It
-does not contain your password.
+It records the app's conversation with the Go server for the current session.
+It does not contain your password.
 
 ---
 

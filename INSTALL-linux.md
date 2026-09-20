@@ -1,8 +1,8 @@
 # Installing Go Cafe on Linux
 
-Go Cafe ships for Linux as a single **AppImage** — one file, no installer, no
-package manager, nothing written outside your home directory. Delete the file
-and it's gone.
+Go Cafe ships for Linux as one AppImage file. There is no installer and no
+package. Nothing is written outside your home directory. Delete the file and
+it is gone.
 
 ## Install
 
@@ -15,22 +15,35 @@ and it's gone.
    ./GoCafe-*.AppImage
    ```
 
-That's it. Most desktops will also let you tick *Allow executing file as
-program* in the file manager's Properties dialog instead of running `chmod`, and
-then launch it by double-clicking.
+Most file managers can do the first step for you: Properties, then *Allow
+executing file as program*. Then double-click it.
 
-If you want it in your applications menu, drop it in `~/Applications` and
-install [Gear Lever](https://flathub.org/apps/it.mijorus.gearlever) or
-[AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher), which
-handle menu entries and updates for AppImages generally. Go Cafe doesn't need
-either one to run.
+For a menu entry, put the file in `~/Applications` and use
+[Gear Lever](https://flathub.org/apps/it.mijorus.gearlever) or
+[AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher). Go Cafe
+does not need either to run.
+
+## Updates
+
+Go Cafe checks for a new version when it starts. When there is one, a card in
+the corner shows what changed. Click **Install**: it downloads the new
+AppImage, checks it against the published checksum, puts it in place of the
+old file and restarts. The file keeps its name and its place. Click ✕ to put
+the card away until the next launch, or **Skip this version** to not hear
+about that version again.
+
+**Settings → About → Version** shows which version you have and checks again
+when you tap it.
+
+If the file is somewhere you cannot write, or you run it unpacked, the card
+links to the download page instead.
 
 ## If it doesn't start
 
 ### "dlopen(): error loading libfuse.so.2"
 
-This is the common one. An AppImage mounts itself with FUSE 2, and several
-distributions stopped installing FUSE 2 by default once they moved to FUSE 3.
+An AppImage mounts itself with FUSE 2, and several distributions no longer
+install it by default.
 
 ```sh
 sudo apt install libfuse2      # Ubuntu 22.04, Debian 12, Mint 21
@@ -39,54 +52,51 @@ sudo dnf install fuse-libs     # Fedora
 sudo pacman -S fuse2           # Arch
 ```
 
-Installing `libfuse2` alongside `fuse3` is fine — they coexist, and nothing
-already on your system breaks.
+FUSE 2 and FUSE 3 coexist. Installing one does not break the other.
 
-If you'd rather not install anything, this runs the app without FUSE by
-unpacking it to a temporary directory first:
+To run without FUSE, unpack it to a temporary directory first:
 
 ```sh
 ./GoCafe-*.AppImage --appimage-extract-and-run
 ```
 
-It's a little slower to start and needs a few hundred MB of free space in
-`/tmp`, but it is otherwise identical.
+This starts a little slower and needs a few hundred MB free in `/tmp`.
 
 ### "version `GLIBC_2.xx' not found"
 
 Your distribution is older than the one the release was built on. The build
-targets **glibc 2.35**, so the AppImage runs on:
+needs glibc 2.35.
 
 | Works | Too old |
 | --- | --- |
 | Ubuntu 22.04 and newer | Ubuntu 20.04 and older |
 | Debian 12 (bookworm) and newer | Debian 11 (bullseye) and older |
-| Fedora 36 and newer | RHEL / Rocky / Alma 8 |
+| Fedora 36 and newer | RHEL, Rocky and Alma 8 |
 | Linux Mint 21, Pop!_OS 22.04, Zorin 17 and newer | openSUSE Leap 15.x |
-| Arch, Manjaro, EndeavourOS (rolling) | |
+| Arch, Manjaro, EndeavourOS | |
 
-There's no workaround short of building from source on your own machine — see
-[Building it yourself](#building-it-yourself) below.
+There is no workaround short of building it on your own machine. See
+[Building it yourself](#building-it-yourself).
 
 ### A missing GTK or audio library
 
-The AppImage deliberately does *not* bundle GTK 3, OpenGL, X11 or the sound
-stack: those have to match your machine, not the build machine. Every mainstream
-desktop already has them. On a minimal or unusual install you may need:
+The AppImage does not bundle GTK 3, OpenGL, X11 or the sound stack. Those
+have to come from your machine, and every mainstream desktop has them. On a
+minimal install you may need:
 
 ```sh
 sudo apt install libgtk-3-0 libasound2
 ```
 
-### Something else
+### Anything else
 
-Run it from a terminal so you can see what it says:
+Run it from a terminal and read what it prints:
 
 ```sh
 ./GoCafe-*.AppImage
 ```
 
-On Wayland, if the window misbehaves, try forcing X11:
+On Wayland, if the window misbehaves, force X11:
 
 ```sh
 GDK_BACKEND=x11 ./GoCafe-*.AppImage
@@ -94,35 +104,39 @@ GDK_BACKEND=x11 ./GoCafe-*.AppImage
 
 ## Where Go Cafe keeps things
 
-- Settings, board-theme choice and logs: `~/.local/share/app.gocafe.gocafe/`
+- Settings, board choice and logs: `~/.local/share/app.gocafe.gocafe/`
 - Cached data: `~/.cache/app.gocafe.gocafe/`
-- **Server passwords: your desktop keyring**, through libsecret — the same place
-  GNOME, KDE and most browsers keep theirs.
+- Server passwords: your desktop keyring, through libsecret, where GNOME, KDE
+  and most browsers keep theirs.
 
-(Both directories follow `XDG_DATA_HOME` / `XDG_CACHE_HOME` if you've set them.)
+Both directories follow `XDG_DATA_HOME` and `XDG_CACHE_HOME` if you set them.
 
-That last point matters on a machine with no keyring daemon running (a bare
-window manager, some server or minimal installs). Without one, Go Cafe can't
-save your login and will ask for it every time. Installing and unlocking
-`gnome-keyring` fixes it.
+Without a keyring daemon, as on a bare window manager or a minimal install, Go
+Cafe cannot save your login and asks for it every time. Installing and
+unlocking `gnome-keyring` fixes that.
 
 ## Verifying the download
 
-Each release includes a `.sha256` file next to the AppImage:
+Each release has a `.sha256` file next to the AppImage:
 
 ```sh
 sha256sum -c GoCafe-<version>-x86_64.AppImage.sha256
 ```
 
-The AppImage is **not** GPG-signed. AppImage signing exists but almost nothing
-verifies it, so the checksum is the meaningful check for now.
+The AppImage is not GPG-signed. The checksum is the check.
+
+## Reporting a problem
+
+Attach the session log, `~/.local/share/app.gocafe.gocafe/gocafe-session.log`.
+It records the app's conversation with the Go server for the current session.
+It does not contain your password.
 
 ## Uninstalling
 
-Delete the file. If you added a menu entry by hand, remove
-`~/.local/share/applications/gocafe.desktop` too. To also clear your settings,
-delete `~/.local/share/app.gocafe.gocafe/` and `~/.cache/app.gocafe.gocafe/`;
-your saved logins live in the keyring, under `app.gocafe.gocafe`.
+Delete the file. If you made a menu entry, remove
+`~/.local/share/applications/gocafe.desktop` too. To clear your settings,
+delete `~/.local/share/app.gocafe.gocafe/` and `~/.cache/app.gocafe.gocafe/`.
+Your saved login is in the keyring under `app.gocafe.gocafe`.
 
 ---
 

@@ -1,103 +1,98 @@
-# Installing Go Cafe on your Mac
+# Installing Go Cafe on a Mac
 
-Thanks for testing. This takes about a minute.
+There are two ways. The first takes ten seconds and shows no warning. The
+second is the usual drag to Applications, with one extra step the first time.
 
-## 1. Open the disk image
+## One line in Terminal
 
-Double-click **GoCafe-<version>.dmg**. A window opens with the Go Cafe icon and a
-shortcut to your Applications folder.
+Open Terminal (press ⌘-Space, type `Terminal`, press Return). Paste this line
+and press Return:
 
-## 2. Drag Go Cafe into Applications
+```
+curl -fsSL https://raw.githubusercontent.com/go-cafe-app/app/main/install.sh | bash
+```
 
-Drag the **Go Cafe** icon onto the **Applications** folder next to it.
+It downloads the latest version, checks it against the published checksum,
+puts Go Cafe in your Applications folder and opens it. If Go Cafe is already
+there, it is replaced.
 
-Then eject the disk image: click the ⏏ next to "Go Cafe" in the Finder sidebar,
-or drag it to the Trash. (You are ejecting the image, not deleting the app.)
+macOS shows no warning, because the warning is for files a browser downloaded
+and this one was not. Nothing on your Mac is changed or switched off. The
+script is [install.sh](install.sh), one page of shell you can read first.
 
-## 3. First launch — the important bit
+## The disk image
 
-Double-click **Go Cafe**. macOS blocks it and says
+1. Open `GoCafe-<version>.dmg`.
+2. Drag **Go Cafe** onto the **Applications** folder next to it. Then eject
+   the image.
+3. Open Go Cafe from Applications. macOS says it "can't be opened because
+   Apple cannot check it for malicious software". Click **Cancel**.
+4. Open **System Settings → Privacy & Security** and scroll to the bottom.
+   Next to the line about Go Cafe, click **Open Anyway** and confirm.
 
-> "Go Cafe" can't be opened because Apple cannot check it for malicious software.
+That is once. After that it opens like any other app.
 
-and offers you only **Move to Trash** or **Cancel**. Click **Cancel** — nothing
-is wrong with the app, and this is the step that gets past it:
+On macOS 14 and earlier, skip step 4: right-click Go Cafe in Applications,
+choose **Open**, and click **Open** again.
 
-1. Open **System Settings → Privacy & Security**.
-2. Scroll to the bottom. There is a line about Go Cafe being blocked, with an
-   **Open Anyway** button next to it.
-3. Click **Open Anyway**, then confirm.
+## Updates
 
-That is it. From then on Go Cafe opens normally with a double-click — you only
-need to do this once.
+Go Cafe checks for a new version when it starts. When there is one, a card in
+the corner shows what changed. Click **Install**: it downloads, verifies and
+swaps itself over, then restarts. Click ✕ to put the card away until the next
+launch, or **Skip this version** to not hear about that version again.
 
-### On macOS 14 (Sonoma) and earlier
+**Settings → About → Version** shows which version you have and checks again
+when you tap it.
 
-Older macOS has a shortcut for this that Apple has since removed. Instead of
-System Settings: **right-click** (or Control-click) Go Cafe in Applications,
-choose **Open**, and click **Open** again in the warning. Everything else is the
-same.
+An update opens with no warning, whichever way you first installed.
 
-## Why does macOS warn me?
+## Why the warning
 
-Go Cafe is not signed with an Apple Developer certificate yet. Apple charges an
-annual fee for one, and this build is an early test version, so it does not have
-one. macOS shows the same warning for any app it has not seen notarised by
-Apple, regardless of whether the app is fine.
+Go Cafe is not signed with an Apple Developer certificate, and macOS warns
+about every app Apple has not notarised. **Open Anyway** changes no setting
+and applies to this one app.
 
-**Open Anyway** is macOS's own built-in way of saying "yes, I know where this
-came from, let it run." It does not disable any security setting on your Mac,
-and it applies only to this one app.
+## Signing in
 
-## Anything not working?
-
-Nothing, as of this build. **"Stay signed in" works.** It used to not: an
-unsigned app cannot use the macOS Keychain, so the tick box looked like it
-worked and saved nothing. Fox is now remembered as a rotating session token kept
-in the app's own container instead of a password in the Keychain, which needs no
-signature and no permission prompt. Your password is not stored at all.
+**Stay signed in** keeps a session token in the app's data folder. Your
+password is not stored.
 
 ## If something goes wrong
 
-**"Go Cafe is damaged and can't be opened."**
-This usually means the download was incomplete or the file was unpacked by
-something that stripped it. Delete the app and the .dmg, download again, and
-retry step 3. If it persists, run this in Terminal and try once more:
+**"Go Cafe is damaged and can't be opened."** The download is incomplete.
+Delete the app and the disk image, then use the one line in Terminal, which
+checks the download before installing.
 
-```
-xattr -dr com.apple.quarantine "/Applications/Go Cafe.app"
-```
+**There is no Go Cafe line in Privacy & Security.** The line appears after
+macOS blocks a launch from Applications, and not always after one from the
+disk image. Open the app from Applications once more, then look again.
 
-**There is no Go Cafe line in Privacy & Security.**
-It only appears after macOS has blocked a launch, and it clears itself after a
-while. Try to open the app once more, then look again — the line should be at
-the bottom of the page, under **Security**.
+**The update card says Go Cafe can't write to its own folder.** It is running
+from the disk image, or from a folder your account cannot change. Run the one
+line in Terminal.
 
-Make sure you are opening the app from **Applications**, not from the
-still-mounted disk image; a blocked launch from inside the image does not always
-produce the line.
-
-**It opens but cannot reach a server.**
-Check that you are online, then confirm no VPN or corporate firewall is blocking
-outbound connections. Go Cafe talks to Go servers directly on their own ports,
-not over plain web traffic, and some restrictive networks block that.
+**It opens but can't reach a server.** Check that you are online. Go Cafe
+connects to Go servers on their own ports, and some VPNs and office networks
+block that.
 
 ## Requirements
 
-- macOS 10.15 or newer
-- Works on both Apple Silicon and Intel Macs
+macOS 10.15 or newer, on Apple Silicon or Intel.
 
-## Reporting problems
+## Reporting a problem
 
-If the app misbehaves, there is a log that makes it much easier to diagnose.
-Copy it into a bug report:
+Attach the session log:
 
 ```
-~/Library/Containers/app.gocafe.gocafe/Data/Library/Application Support/app.gocafe.gocafe/gocafe-session.log
+~/Library/Application Support/app.gocafe.gocafe/gocafe-session.log
 ```
 
-It records the app's conversation with the Go server for the current session. It
-does not contain your password.
+Up to version 1.2.2 it was under
+`~/Library/Containers/app.gocafe.gocafe/Data/Library/Application Support/app.gocafe.gocafe/`.
+
+The log records the app's conversation with the Go server for the current
+session. It does not contain your password.
 
 ---
 
